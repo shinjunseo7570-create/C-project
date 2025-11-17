@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d9ac401b1b3ec14d9ac688a387fd827, type: 3}
+  m_Name: normal
+  m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
+  modeName: "\uC77C\uBC18"
+  attackInterval: 0.5
+  damage: 1
+  range: 5
+  projectileSpeed: 10
+  isMultiTarget: 0
+  assetPrefab: {fileID: 9206725118541287248, guid: a44306d2c48a4f24fb4fe62161897ca6,
+    type: 3}
