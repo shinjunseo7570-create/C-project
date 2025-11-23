@@ -34,6 +34,8 @@ public class Enemy : MonoBehaviour
     Animator anim;
     SpriteRenderer spriter;
 
+    Collider2D col;
+
     int typeId;
 
     float CalcElementMultiplier(ElementType elem)
@@ -155,6 +157,8 @@ public class Enemy : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
+
+        col = GetComponent<Collider2D>();
     }
 
     void FixedUpdate()
@@ -220,6 +224,31 @@ public class Enemy : MonoBehaviour
         isAttacking = false;
     }
 
+    IEnumerator DieRoutine()
+    {
+        isAttacking = false;
+
+        if(rigid != null)
+        {
+            rigid.linearVelocity = Vector2.zero;
+        }
+
+        if(col != null)
+        {
+            col.enabled = false;
+        }
+
+        if(anim != null)
+        {
+            anim.SetBool("isAttack", false);
+            anim.SetTrigger("Death");
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        gameObject.SetActive(false);
+    }
+
     void LateUpdate()
     {
         if (!isLive || target == null)
@@ -265,6 +294,8 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!isLive) return;
+
         if (collision.CompareTag("Skill"))
         {
             SkillController skill = collision.GetComponent<SkillController>();
@@ -281,7 +312,14 @@ public class Enemy : MonoBehaviour
 
             Debug.Log($"[Enemy] type={typeId}, elem={skill.Element}, atkType={skill.AttackType}, elemMult={elemMult}, atkMult={atkMult}, dmg={skill.Damage} -> {finalDamage}");
 
-            if (health <= 0)
+            if(health > 0)
+            {
+                if(anim != null)
+                {
+                    anim.SetTrigger("Hit");
+                }
+            }
+            else
             {
                 Dead();
             }
@@ -312,10 +350,12 @@ public class Enemy : MonoBehaviour
 
     void Dead()
     {
+        if (!isLive) return;
+
         isLive = false;
 
         OnEnemyDead?.Invoke(this);
 
-        gameObject.SetActive(false);
+        StartCoroutine(DieRoutine());
     }
 }
