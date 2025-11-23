@@ -21519,118 +21519,67 @@ MonoBehaviour:
   - {fileID: 1660786319}
   - {fileID: 94702951}
   rounds:
-  - mobSpawnData:
-      spriteType: 0
+  - mobSpawnDatas:
+    - spriteType: 0
       Health: 0
       Speed: 1
-      Range: 0.75
+      Range: 1
+      groupCount: 1
     mobCount: 1
     bossSpawnData:
-      spriteType: 1
+      spriteType: 0
       Health: 0
       Speed: 2
       Range: 1
-  - mobSpawnData:
-      spriteType: 1
+      groupCount: 1
+  - mobSpawnDatas:
+    - spriteType: 1
       Health: 0
-      Speed: 2
+      Speed: 1
       Range: 1
-    mobCount: 1
-    bossSpawnData:
-      spriteType: 2
+      groupCount: 10
+    - spriteType: 2
       Health: 0
-      Speed: 3
-      Range: 2
-  - mobSpawnData:
-      spriteType: 2
+      Speed: 1
+      Range: 1
+      groupCount: 1
+    - spriteType: 3
       Health: 0
-      Speed: 3
-      Range: 2
-    mobCount: 1
+      Speed: 1
+      Range: 1
+      groupCount: 4
+    mobCount: 100
     bossSpawnData:
       spriteType: 3
       Health: 0
-      Speed: 4
-      Range: 2
-  - mobSpawnData:
-      spriteType: 3
-      Health: 0
-      Speed: 4
-      Range: 2
-    mobCount: 1
-    bossSpawnData:
-      spriteType: 4
-      Health: 0
-      Speed: 5
-      Range: 2
-  - mobSpawnData:
-      spriteType: 4
-      Health: 0
-      Speed: 5
+      Speed: 1
       Range: 1
-    mobCount: 1
-    bossSpawnData:
-      spriteType: 5
+      groupCount: 1
+  - mobSpawnDatas:
+    - spriteType: 4
       Health: 0
-      Speed: 6
+      Speed: 1
       Range: 1
-  - mobSpawnData:
-      spriteType: 5
+      groupCount: 10
+    - spriteType: 5
       Health: 0
-      Speed: 6
+      Speed: 1
       Range: 1
-    mobCount: 1
+      groupCount: 2
+    - spriteType: 6
+      Health: 0
+      Speed: 1
+      Range: 1
+      groupCount: 1
+    mobCount: 100
     bossSpawnData:
       spriteType: 6
       Health: 0
-      Speed: 7
+      Speed: 1
       Range: 1
-  - mobSpawnData:
-      spriteType: 6
-      Health: 0
-      Speed: 7
-      Range: 1
-    mobCount: 1
-    bossSpawnData:
-      spriteType: 7
-      Health: 0
-      Speed: 8
-      Range: 1
-  - mobSpawnData:
-      spriteType: 7
-      Health: 0
-      Speed: 8
-      Range: 1
-    mobCount: 1
-    bossSpawnData:
-      spriteType: 8
-      Health: 0
-      Speed: 9
-      Range: 1
-  - mobSpawnData:
-      spriteType: 8
-      Health: 0
-      Speed: 9
-      Range: 1
-    mobCount: 1
-    bossSpawnData:
-      spriteType: 9
-      Health: 0
-      Speed: 10
-      Range: 1
-  - mobSpawnData:
-      spriteType: 9
-      Health: 0
-      Speed: 10
-      Range: 1
-    mobCount: 1
-    bossSpawnData:
-      spriteType: 9
-      Health: 0
-      Speed: 11
-      Range: 1
+      groupCount: 1
   poolManager: {fileID: 1396847701}
-  spawnDelay: 0
+  spawnDelay: 3
 --- !u!1 &1292326033
 GameObject:
   m_ObjectHideFlags: 0
@@ -21797,16 +21746,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoolManager
   prefabs:
-  - {fileID: 3063486381930333494, guid: ca19872d6a67045e49bff63e7892498e, type: 3}
-  - {fileID: 3063486381930333494, guid: ca19872d6a67045e49bff63e7892498e, type: 3}
-  - {fileID: 3063486381930333494, guid: ca19872d6a67045e49bff63e7892498e, type: 3}
-  - {fileID: 3063486381930333494, guid: ca19872d6a67045e49bff63e7892498e, type: 3}
-  - {fileID: 3063486381930333494, guid: ca19872d6a67045e49bff63e7892498e, type: 3}
-  - {fileID: 3063486381930333494, guid: ca19872d6a67045e49bff63e7892498e, type: 3}
-  - {fileID: 3063486381930333494, guid: ca19872d6a67045e49bff63e7892498e, type: 3}
-  - {fileID: 3063486381930333494, guid: ca19872d6a67045e49bff63e7892498e, type: 3}
-  - {fileID: 3063486381930333494, guid: ca19872d6a67045e49bff63e7892498e, type: 3}
-  - {fileID: 3063486381930333494, guid: ca19872d6a67045e49bff63e7892498e, type: 3}
+  - {fileID: 8527975189997329003, guid: 6a50b495f6832d949988993ef9566d01, type: 3}
+  - {fileID: 9099763189878034037, guid: bc89fc112791b5e4cb47b8ff9880837c, type: 3}
+  - {fileID: 5562379956226744029, guid: f7ab10766c8231f4094faad1f53c7232, type: 3}
+  - {fileID: 4858907357852531343, guid: a75b64bd07ec09d4d9f943eec0e679bf, type: 3}
+  - {fileID: 3362429030774727571, guid: 36acb018dcd9c904db54e89a539cefce, type: 3}
+  - {fileID: 1386221000850984714, guid: 205de864bc967b94f8fa92c6ed74c255, type: 3}
+  - {fileID: 8513114969660969084, guid: f4ed7dcd07344c442a7d95729a7fdf5a, type: 3}
 --- !u!1 &1473284267
 GameObject:
   m_ObjectHideFlags: 0

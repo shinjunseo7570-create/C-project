@@ -13,7 +13,7 @@ public class SkillController : MonoBehaviour
 
     private ElementType element = ElementType.None;
 
-
+    public AttackType AttackType { get; private set; }
 
     public void Init(float _speed, float _range, float _damage)
     {
@@ -22,6 +22,8 @@ public class SkillController : MonoBehaviour
         this.damage = _damage;
 
         // 시작 위치 저장 (사거리 계산용)
+        
+
         this.startPosition = transform.position;
 
         // 사거리에 안 닿아도 10초 뒤엔 무조건 파괴
@@ -34,6 +36,8 @@ public class SkillController : MonoBehaviour
         this.maxRange = data.range;
         this.damage = data.damage;
         this.element = data.element;
+
+        this.AttackType = data.attackType;
 
         this.startPosition = transform.position;
 

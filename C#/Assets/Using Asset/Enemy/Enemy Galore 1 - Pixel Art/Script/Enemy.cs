@@ -9,8 +9,9 @@ public class Enemy : MonoBehaviour
     public float speed;
     public float health;
     public float maxHealth;
-    public RuntimeAnimatorController[] animCon;
     public Rigidbody2D target;
+
+    
 
     public bool isBoss = false;
 
@@ -71,6 +72,78 @@ public class Enemy : MonoBehaviour
                 if (elem == ElementType.Fire || elem == ElementType.Water)
                 {
                     mult = 2f;
+                }
+                break;
+        }
+        return mult;
+    }
+
+    float CalcAttackTypeMultiplier(AttackType atkType)
+    {
+        float mult = 1f;
+
+        switch(typeId)
+        {
+            case 2: // 가재
+                switch(atkType)
+                {
+                    case AttackType.Normal:
+                        mult = 0.5f;
+                        break;
+
+                    case AttackType.Snipe:
+                        mult = 2f;
+                        break;
+
+                    case AttackType.Melee:
+                        mult = 0.5f;
+                        break;
+
+                    case AttackType.Area:
+                        mult = 0.5f;
+                        break;
+                }
+            break;
+
+            case 5: // 골렘
+                switch (atkType)
+                {
+                    case AttackType.Normal:
+                        mult = 1f;
+                        break;
+
+                    case AttackType.Snipe:
+                        mult = 2f;
+                        break;
+
+                    case AttackType.Melee:
+                        mult = 1f;
+                        break;
+
+                    case AttackType.Area:
+                        mult = 1f;
+                        break;
+                }
+                break;
+
+            case 6: // 강화 골렘
+                switch (atkType)
+                {
+                    case AttackType.Normal:
+                        mult = 0.5f;
+                        break;
+
+                    case AttackType.Snipe:
+                        mult = 2f;
+                        break;
+
+                    case AttackType.Melee:
+                        mult = 1f;
+                        break;
+
+                    case AttackType.Area:
+                        mult = 0.5f;
+                        break;
                 }
                 break;
         }
@@ -180,7 +253,7 @@ public class Enemy : MonoBehaviour
     {
         typeId = data.spriteType;
 
-        anim.runtimeAnimatorController = animCon[data.spriteType];
+
         speed = data.Speed;
         maxHealth = data.Health;
         health = data.Health;
@@ -199,11 +272,14 @@ public class Enemy : MonoBehaviour
             if (skill == null)
                 return;
 
-            float multiplier = CalcElementMultiplier(skill.Element);
-            float finalDamage = skill.Damage * multiplier;
+            float elemMult = CalcElementMultiplier(skill.Element);
+
+            float atkMult = CalcAttackTypeMultiplier(skill.AttackType);
+
+            float finalDamage = skill.Damage * atkMult * elemMult;
             health -= finalDamage;
 
-            Debug.Log($"[Enemy] type={typeId}, elem={skill.Element}, mult={multiplier}, dmg={skill.Damage} -> {finalDamage}");
+            Debug.Log($"[Enemy] type={typeId}, elem={skill.Element}, atkType={skill.AttackType}, elemMult={elemMult}, atkMult={atkMult}, dmg={skill.Damage} -> {finalDamage}");
 
             if (health <= 0)
             {

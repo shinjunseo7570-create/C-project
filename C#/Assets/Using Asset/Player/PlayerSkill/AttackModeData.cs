@@ -25,6 +25,9 @@ public class AttackModeData : ScriptableObject // **ScriptableObjectï¿½ï¿½ ï¿½ï¿
     public GameObject assetPrefab;
 
     public ElementType element;
+
+
+    public AttackType attackType = AttackType.Normal;
 }
 
 public enum ElementType
@@ -34,4 +37,12 @@ public enum ElementType
     Water, // 2
     Wind, // 3
     Earth // 4
+}
+
+public enum AttackType
+{
+    Normal,
+    Snipe,
+    Melee,
+    Area
 }
