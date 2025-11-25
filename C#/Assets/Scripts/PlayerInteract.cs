@@ -8,6 +8,10 @@ public class PlayerInteract : MonoBehaviour
     Animator myAnimator;
     Rigidbody2D myRigidbody;
 
+    [SerializeField]  public int Hp = 10;
+
+   
+
 
     void Start()
     {
@@ -43,5 +47,22 @@ public class PlayerInteract : MonoBehaviour
         {
             transform.localScale = new Vector2(Mathf.Sign(myRigidbody.linearVelocity.x), 1f);
         }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Hp -= damage;
+        Debug.Log("플레이어 데미지!");
+
+        if(Hp <= 0)
+        {
+            Hp = 0;
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("GameOver");
     }
 }

@@ -16,6 +16,8 @@ public class PlayerSkillController : MonoBehaviour
     public GameObject elementSelectionUI;
     public GameObject attackSelectionUI; // E키는 즉시 변경이지만, 변수는 남겨둠
 
+    public RaidalMenuManager menuManager;
+
     [Header("발사 위치 설정")]
     public Transform Balsa;
 
@@ -37,16 +39,25 @@ public class PlayerSkillController : MonoBehaviour
 
     void Update()
     {
-        HandleSelectionInput();
+        //HandleSelectionInput();
+
+
 
         // 선택 중이 아닐 때만 공격 가능
+        bool menuOpen = menuManager != null && menuManager.IsMenuOpen();
+
+        if(menuOpen)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0) && !isSelecting)
         {
             PerformAttack();
         }
     }
 
-    private void HandleSelectionInput()
+    /*private void HandleSelectionInput()
     {
         // Q키: 속성 선택 (누르고 있는 동안 UI 켜짐)
         if (Input.GetKeyDown(KeyCode.Q) && !isSelecting)
@@ -76,13 +87,9 @@ public class PlayerSkillController : MonoBehaviour
         // 해당 인덱스의 무기 장착
         EquipWeapon(currentWeaponIndex);
     }
+    
 
-    private void EquipWeapon(int index)
-    {
-        currentAttackMode = availableAttackModes[index];
 
-        Debug.Log($"무기 변경됨: {currentAttackMode.name}");
-    }
 
     private void StartSelection(GameObject uiPanel)
     {
@@ -107,9 +114,97 @@ public class PlayerSkillController : MonoBehaviour
     {
         currentElement = (ElementType)elementIndex;
     }
+    */
+
+    private void EquipWeapon(int index)
+    {
+        currentAttackMode = availableAttackModes[index];
+
+        Debug.Log($"무기 변경됨: {currentAttackMode.name}");
+    }
+
+    // UI 버튼 등에서 호출할 함수, 속성변경
+    public void SetElement(ElementType element)
+    {
+        currentElement = element;
+        Debug.Log("속성변경 호출됨");
+    }
+
+    // UI 버튼 등에서 호출할 함수
+    public void SetAttackType(AttackType type)
+    {
+        
+        if (availableAttackModes == null || availableAttackModes.Count == 0)
+        {
+            Debug.LogWarning("[PlayerSkill] availableAttackModes가 비어 있습니다.");
+            return;
+        }
+
+
+        if(type == AttackType.Normal)
+        {
+            EquipWeapon(0);
+            currentWeaponIndex = 0;
+        }
+
+        if(type == AttackType.Snipe)
+        {
+            EquipWeapon(1);
+            currentWeaponIndex = 1;
+        }
+
+        if (type == AttackType.Melee)
+        {
+            EquipWeapon(2);
+            currentWeaponIndex = 2;
+        }
+
+        if(type == AttackType.Area)
+        {
+            EquipWeapon(3);
+            currentWeaponIndex = 3;
+        }
+
+
+        /*for (int i = 0; i < availableAttackModes.Count; i++)
+        {
+            AttackModeData mode = availableAttackModes[i];
+            if (mode != null && mode.attackType == type)
+            {
+                // 인덱스 기억 + 실제 무기 장착
+                currentWeaponIndex = i;
+                EquipWeapon(i);
+
+                Debug.Log($"무기변경 호출됨 : {type} -> {mode.name}");
+                return;
+            }
+        }
+
+        Debug.LogWarning($"[PlayerSkill] {type} 타입의 무기를 찾지 못했습니다.");
+        */
+
+        // 리스트에서 해당 AttackType을 가진 무기 데이터 찾기
+        /*foreach (var mode in availableAttackModes)
+        {
+            if (mode != null && mode.attackType == type)
+            {
+                currentAttackMode = mode;
+                Debug.Log("무기변경 호출됨");
+                return;
+            }
+        }*/
+    }
 
     public void PerformAttack()
     {
+        bool menuOpen = menuManager != null && menuManager.IsMenuOpen();
+
+        if (menuOpen)
+        {
+            return;
+        }
+
+
         if (Time.time < nextActionTime) return;
         if (currentAttackMode == null) return;
 

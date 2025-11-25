@@ -182,6 +182,7 @@ public class SpawnData
 {
     public int spriteType;
     public int Health;
+    public int Attack;
     public int Speed;
     public float Range; // 사정거리
     public int groupCount = 1;

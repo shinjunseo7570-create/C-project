@@ -25,9 +25,7 @@ public class AttackModeData : ScriptableObject // **ScriptableObjectï¿½ï¿½ ï¿½ï¿
     public GameObject assetPrefab;
 
     public ElementType element;
-
-
-    public AttackType attackType = AttackType.Normal;
+    public AttackType attackType;
 }
 
 public enum ElementType

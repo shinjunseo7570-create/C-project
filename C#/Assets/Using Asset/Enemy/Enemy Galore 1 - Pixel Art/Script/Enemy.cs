@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     public float health;
     public float maxHealth;
     public Rigidbody2D target;
+    public int Power = 1;
 
     
 
@@ -29,6 +30,8 @@ public class Enemy : MonoBehaviour
     public float spawnProtectTime = 0.3f;
 
     bool isLive = true;
+
+    bool hasDealtDamageThisAttack = false;
 
     Rigidbody2D rigid;
     Animator anim;
@@ -200,21 +203,38 @@ public class Enemy : MonoBehaviour
 
     void AttackPlayer()
     {
-        Debug.Log("플레이어 공격");
-        // 여기에서 플레이어 체력 깎는 로직 넣으면 됨
+        if (!isLive || target == null)
+            return;
+
+
+        float distance = Vector2.Distance(target.position, rigid.position);
+
+        //여유범위 약간 제공 테스트하면서 줄여봐야할듯
+        if (distance <= attackRange + 0.5f)
+        {
+            Debug.Log("플레이어 공격!");
+
+            //플레이어 체력감소 시키는함수(플레이어 안에)를 호출 해서 체력감소 진행
+            PlayerInteract player = target.GetComponent<PlayerInteract>();
+
+            if (player != null)
+            {
+                //여기에 몬스터 atk 변수 넣으면 가능하게 함수 오버로딩?
+                player.TakeDamage(Power);
+            }
+
+        }
     }
 
     IEnumerator AttackRoutine()
     {
         isAttacking = true;
+        hasDealtDamageThisAttack = false;
 
         // 공격 시작: 이동 멈추고, 공격 애니메이션 ON
         rigid.linearVelocity = Vector2.zero;
         anim.SetBool("isAttack", true);
 
-        // 필요하다면 타격 타이밍 맞춰서 약간 딜레이 줘도 됨
-        // yield return new WaitForSeconds(0.2f);
-        AttackPlayer();
 
         // 공격 애니메이션이 끝날 때까지 대기
         yield return new WaitForSeconds(attackAnimDuration);
@@ -287,6 +307,7 @@ public class Enemy : MonoBehaviour
         maxHealth = data.Health;
         health = data.Health;
         attackRange = data.Range;
+        Power = data.Attack;
 
         float spawnDist = Vector2.Distance(target.position, rigid.position);
         Debug.Log($"[Enemy.Init] spawnDist = {spawnDist}");
@@ -344,8 +365,13 @@ public class Enemy : MonoBehaviour
 
     void Damaged()
     {
-        Debug.Log("GameOver");
-        return;
+        if (hasDealtDamageThisAttack) return;
+
+        PlayerInteract player = target.GetComponent<PlayerInteract>();
+        if(player != null)
+        {
+            player.TakeDamage(Power);
+        }
     }
 
     void Dead()

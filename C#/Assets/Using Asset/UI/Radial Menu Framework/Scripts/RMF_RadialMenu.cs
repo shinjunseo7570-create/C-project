@@ -100,9 +100,9 @@ public class RMF_RadialMenu : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        //If your gamepad uses different horizontal and vertical joystick inputs, change them here!
+        //원본 에셋에서 게임패드 조작 호환 코드 였던것
         //==============================================================================================
-        bool joystickMoved = Input.GetAxis("Horizontal") != 0.0 || Input.GetAxis("Vertical") != 0.0;
+        bool joystickMoved = false;
         //==============================================================================================
 
 
