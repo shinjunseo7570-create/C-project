@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d9ac401b1b3ec14d9ac688a387fd827, type: 3}
-  m_Name: Melee
+  m_Name: area_earth
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
-  modeName: Melee
+  modeName: "\uC9C0\uD615"
   attackInterval: 1
   damage: 1
-  range: 5
+  range: 20
   projectileSpeed: 10
-  isMultiTarget: 0
-  elementName: Default Element
-  assetPrefab: {fileID: 0}
-  element: 0
-  attackType: 2
+  isMultiTarget: 1
+  elementName: Earth
+  assetPrefab: {fileID: 3707324906858692016, guid: 6b0e13e54f2777e459a1dbea6909213b,
+    type: 3}
+  element: 3
+  attackType: 3

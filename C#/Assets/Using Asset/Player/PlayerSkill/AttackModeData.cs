@@ -21,20 +21,22 @@ public class AttackModeData : ScriptableObject // **ScriptableObject�� ��
     // ���� Ÿ�� ����
     public bool isMultiTarget = false;
 
+    public string elementName = "Default Element";
+
     // ����� ����Ʈ/����ü ���� ������
     public GameObject assetPrefab;
 
-    public ElementType element;
+    public ElementType element; 
     public AttackType attackType;
 }
 
 public enum ElementType
 {
-    None, // 0
-    Fire, // 1
-    Water, // 2
-    Wind, // 3
-    Earth // 4
+
+    Fire, 
+    Water, 
+    Wind, 
+    Earth 
 }
 
 public enum AttackType

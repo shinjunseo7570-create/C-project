@@ -29469,12 +29469,82 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSkillController
   currentElement: 0
-  currentAttackMode: {fileID: 11400000, guid: 0b9397be1a6650b4f97b39b734d56728, type: 2}
+  currentAttackMode: {fileID: 0}
   availableAttackModes:
-  - {fileID: 11400000, guid: 0b9397be1a6650b4f97b39b734d56728, type: 2}
-  - {fileID: 11400000, guid: 5af539b897daab14b8f178b600eb3118, type: 2}
-  - {fileID: 11400000, guid: 6e370936cf201ed48a369b32ef8751d3, type: 2}
-  - {fileID: 11400000, guid: 026fdc1c72879ea498faf06c28e9ea1c, type: 2}
+  - {fileID: 11400000, guid: 354e37000ad5dbc4c8ded01b66b08812, type: 2}
+  - {fileID: 11400000, guid: 2dbe5d3c3c9fe9d478b9d7846a34cb60, type: 2}
+  - {fileID: 11400000, guid: 9ed52f25a0116924d975591141357162, type: 2}
+  - {fileID: 11400000, guid: 685bca6f75ef75f4b92f8c13a7fd2636, type: 2}
+  availableElements:
+  - {fileID: 11400000, guid: ede629cbaba6d104687bbdf7290bd884, type: 2}
+  - {fileID: 11400000, guid: bfa59306e75371a41b8ca82427c2d403, type: 2}
+  - {fileID: 11400000, guid: fc64830534577a446b3c8e68c5aa1605, type: 2}
+  - {fileID: 11400000, guid: e337a9e5c95345442acf57bdae88b11e, type: 2}
+  skillCombinations:
+  - attackType: 0
+    elementType: 0
+    projectilePrefab: {fileID: 9206725118541287248, guid: 6418b281c8d6feb43b2f971b4beb5397,
+      type: 3}
+  - attackType: 0
+    elementType: 1
+    projectilePrefab: {fileID: 9206725118541287248, guid: a44306d2c48a4f24fb4fe62161897ca6,
+      type: 3}
+  - attackType: 0
+    elementType: 2
+    projectilePrefab: {fileID: 9206725118541287248, guid: fb94622535eca514bb29e28c32514c3b,
+      type: 3}
+  - attackType: 0
+    elementType: 3
+    projectilePrefab: {fileID: 9206725118541287248, guid: 9545a34f372a38c4bab197e25b3c1be8,
+      type: 3}
+  - attackType: 1
+    elementType: 0
+    projectilePrefab: {fileID: 4875399373175959950, guid: a5b4d2315536dfb4fbb1807de2646885,
+      type: 3}
+  - attackType: 1
+    elementType: 1
+    projectilePrefab: {fileID: 4875399373175959950, guid: 1b9fa52137c022c40b0752bdc6ba6aa6,
+      type: 3}
+  - attackType: 1
+    elementType: 2
+    projectilePrefab: {fileID: 4875399373175959950, guid: 95ef8e2d0fb29204dab652fb7ffc29da,
+      type: 3}
+  - attackType: 1
+    elementType: 3
+    projectilePrefab: {fileID: 4875399373175959950, guid: 5c0e91f11049d554dbc7f576f0f4d774,
+      type: 3}
+  - attackType: 2
+    elementType: 0
+    projectilePrefab: {fileID: 4995297742569702975, guid: dfe52321c255fda43bfca9a1d962183b,
+      type: 3}
+  - attackType: 2
+    elementType: 1
+    projectilePrefab: {fileID: 4995297742569702975, guid: 7d8a5256f7e8c2c408e6a6da99b7dd7c,
+      type: 3}
+  - attackType: 2
+    elementType: 2
+    projectilePrefab: {fileID: 4995297742569702975, guid: 45750fbcc576d054d94899d78848fce9,
+      type: 3}
+  - attackType: 2
+    elementType: 3
+    projectilePrefab: {fileID: 4995297742569702975, guid: 209d3f33092656a41928380a3f3d8ebe,
+      type: 3}
+  - attackType: 3
+    elementType: 0
+    projectilePrefab: {fileID: 3707324906858692016, guid: 4f6ca73d5fa913446922c8d13811dfc5,
+      type: 3}
+  - attackType: 3
+    elementType: 1
+    projectilePrefab: {fileID: 3707324906858692016, guid: 07f8084882ae4e040942e3f3aa611f79,
+      type: 3}
+  - attackType: 3
+    elementType: 2
+    projectilePrefab: {fileID: 3707324906858692016, guid: 66bacf25c289e3540b41dc9b74ecc22f,
+      type: 3}
+  - attackType: 3
+    elementType: 3
+    projectilePrefab: {fileID: 3707324906858692016, guid: 6b0e13e54f2777e459a1dbea6909213b,
+      type: 3}
   elementSelectionUI: {fileID: 818150745}
   attackSelectionUI: {fileID: 866649171}
   menuManager: {fileID: 808037998}

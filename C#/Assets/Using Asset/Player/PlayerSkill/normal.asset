@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d9ac401b1b3ec14d9ac688a387fd827, type: 3}
-  m_Name: normal
+  m_Name: Normal
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
-  modeName: "\uC77C\uBC18"
-  attackInterval: 0.5
+  modeName: Normal
+  attackInterval: 1
   damage: 1
   range: 5
   projectileSpeed: 10
   isMultiTarget: 0
-  assetPrefab: {fileID: 9206725118541287248, guid: a44306d2c48a4f24fb4fe62161897ca6,
-    type: 3}
+  elementName: Default Element
+  assetPrefab: {fileID: 0}
+  element: 0
+  attackType: 0

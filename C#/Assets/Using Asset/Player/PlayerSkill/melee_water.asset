@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d9ac401b1b3ec14d9ac688a387fd827, type: 3}
-  m_Name: Melee
+  m_Name: melee_water
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
-  modeName: Melee
-  attackInterval: 1
-  damage: 1
+  modeName: "\uADFC\uC811"
+  attackInterval: 1.5
+  damage: 2
   range: 5
   projectileSpeed: 10
-  isMultiTarget: 0
-  elementName: Default Element
-  assetPrefab: {fileID: 0}
-  element: 0
+  isMultiTarget: 1
+  elementName: Water
+  assetPrefab: {fileID: 4995297742569702975, guid: 7d8a5256f7e8c2c408e6a6da99b7dd7c,
+    type: 3}
+  element: 1
   attackType: 2

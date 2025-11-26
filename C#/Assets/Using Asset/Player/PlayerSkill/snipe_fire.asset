@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d9ac401b1b3ec14d9ac688a387fd827, type: 3}
-  m_Name: Melee
+  m_Name: snipe_fire
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
-  modeName: Melee
-  attackInterval: 1
-  damage: 1
-  range: 5
+  modeName: "\uC800\uACA9"
+  attackInterval: 2
+  damage: 3
+  range: 30
   projectileSpeed: 10
   isMultiTarget: 0
-  elementName: Default Element
-  assetPrefab: {fileID: 0}
+  elementName: Fire
+  assetPrefab: {fileID: 4875399373175959950, guid: a5b4d2315536dfb4fbb1807de2646885,
+    type: 3}
   element: 0
-  attackType: 2
+  attackType: 1

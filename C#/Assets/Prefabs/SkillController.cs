@@ -11,7 +11,7 @@ public class SkillController : MonoBehaviour
     public float Damage => damage;
     public ElementType Element => element;
 
-    private ElementType element = ElementType.None;
+    private ElementType element = ElementType.Fire;
 
     public AttackType AttackType { get; private set; }
 
@@ -70,9 +70,5 @@ public class SkillController : MonoBehaviour
             //자신을 파괴
             Destroy(gameObject);
         }
-        /*else if (other.CompareTag("Wall")) // 벽에 부딪혀도 파괴하고 싶다면 추가
-        {
-            Destroy(gameObject);
-        }*/
     }
 }

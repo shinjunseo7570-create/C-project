@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d9ac401b1b3ec14d9ac688a387fd827, type: 3}
-  m_Name: snipe
+  m_Name: Snipe
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
-  modeName: "\uC800\uACA9"
-  attackInterval: 2
-  damage: 3
-  range: 30
+  modeName: Snipe
+  attackInterval: 1
+  damage: 1
+  range: 5
   projectileSpeed: 10
   isMultiTarget: 0
-  assetPrefab: {fileID: 4875399373175959950, guid: 5c0e91f11049d554dbc7f576f0f4d774,
-    type: 3}
+  elementName: Default Element
+  assetPrefab: {fileID: 0}
+  element: 0
+  attackType: 1
