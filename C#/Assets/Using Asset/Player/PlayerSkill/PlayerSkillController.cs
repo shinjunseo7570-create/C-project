@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-// [1] 조합 데이터를 저장할 구조체 (인스펙터에서 설정 가능)
+// 조합 데이터를 저장할 구조체
 [System.Serializable]
 public struct SkillCombination
 {
@@ -23,7 +23,7 @@ public class PlayerSkillController : MonoBehaviour
     // 속성 데이터 (속성 아이콘이나 정보용)
     public List<AttackModeData> availableElements;
 
-    // [중요] 16가지 조합 테이블 리스트
+    // 16가지 조합 테이블 리스트
     public List<SkillCombination> skillCombinations;
 
     [Header("UI 및 매니저 연결")]
@@ -34,12 +34,12 @@ public class PlayerSkillController : MonoBehaviour
     [Header("발사 위치 설정")]
     public Transform Balsa;
 
-    // 내부 변수들
+
     private float nextActionTime = 0f;
     private bool isSelecting = false;
     private const float TimeScaleFactor = 0.1f;
 
-    // 이전에 오류났던 변수 선언 (현재 선택된 속성/무기 번호)
+    // 현재 선택된 속성/무기 번호
     private int currentElementIndex = 0;
     private int currentWeaponIndex = 0;
 
@@ -51,7 +51,7 @@ public class PlayerSkillController : MonoBehaviour
             EquipWeapon(0);
         }
 
-        // 초기 속성 설정 (안전을 위해 0번으로)
+        // 초기 속성 설정 
         if (availableElements.Count > 0)
         {
             EquipElement(0);
@@ -77,17 +77,17 @@ public class PlayerSkillController : MonoBehaviour
         if (Time.time < nextActionTime) return;
         if (currentAttackMode == null) return;
 
-        // 1. 현재 무기 타입과 속성에 맞는 프리팹 찾기
+        // 현재 무기 타입과 속성에 맞는 프리팹 찾기
         GameObject finalPrefab = FindCombiPrefab(currentAttackMode.attackType, currentElement);
 
-        // 2. 만약 조합을 못 찾았다면? 기본 설정된 프리팹 사용 (안전장치)
+        // 만약 조합을 못 찾았다면? 기본 설정된 프리팹 사용
         if (finalPrefab == null)
         {
             Debug.LogWarning($"[Skill] 조합을 찾지 못해 기본 프리팹을 사용합니다: {currentAttackMode.attackType} + {currentElement}");
             finalPrefab = currentAttackMode.assetPrefab;
         }
 
-        // 3. 발사 위치 및 회전 계산
+        // 발사 위치 및 회전 계산
         Vector3 spawnPosition = (Balsa != null) ? Balsa.position : transform.position;
         spawnPosition.z = 0f;
 
@@ -99,12 +99,12 @@ public class PlayerSkillController : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion spawnRotation = Quaternion.Euler(0, 0, angle);
 
-        // 4. 투사체 생성 (찾아낸 finalPrefab으로 생성)
+        // 투사체 생성 
         if (finalPrefab != null)
         {
             GameObject projectile = Instantiate(finalPrefab, spawnPosition, spawnRotation);
 
-            // 5. 투사체 스크립트에 데이터 전달 (속도, 데미지 등은 무기 데이터에서 가져옴)
+            // 투사체 스크립트에 데이터 전달
             SkillController skillScript = projectile.GetComponent<SkillController>();
             if (skillScript != null)
             {
@@ -112,11 +112,11 @@ public class PlayerSkillController : MonoBehaviour
             }
         }
 
-        // 6. 쿨타임 적용
+        // 쿨타임 적용
         nextActionTime = Time.time + currentAttackMode.attackInterval;
     }
 
-    // 리스트에서 조건에 맞는 프리팹을 검색하는 도우미 함수
+    // 리스트에서 조건에 맞는 프리팹을 검색하는 함수
     private GameObject FindCombiPrefab(AttackType aType, ElementType eType)
     {
         foreach (var combi in skillCombinations)
