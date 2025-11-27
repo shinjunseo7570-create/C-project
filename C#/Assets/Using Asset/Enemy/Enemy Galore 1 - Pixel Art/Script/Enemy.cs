@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
 
         switch (typeId)
         {
-            case 0: // 박쥐
+            case 0: // 레드슬라임
                 if (elem == ElementType.Fire)
                 {
                     mult = 2f;
@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
                 }
                 break;
 
-            case 1: // 크랩
+            case 1: // 블루슬라임
                 if (elem == ElementType.Fire)
                 {
                     mult = 0f;
@@ -73,7 +73,7 @@ public class Enemy : MonoBehaviour
                 }
                 break;
 
-            case 2: // 골렘
+            case 2: // 그린슬라임
                 if (elem == ElementType.Fire || elem == ElementType.Water)
                 {
                     mult = 2f;
@@ -89,7 +89,7 @@ public class Enemy : MonoBehaviour
 
         switch(typeId)
         {
-            case 2: // 가재
+            case 4: // 가재
                 switch(atkType)
                 {
                     case AttackType.Normal:
@@ -110,7 +110,7 @@ public class Enemy : MonoBehaviour
                 }
             break;
 
-            case 5: // 골렘
+            case 7: // 골렘
                 switch (atkType)
                 {
                     case AttackType.Normal:
@@ -131,7 +131,7 @@ public class Enemy : MonoBehaviour
                 }
                 break;
 
-            case 6: // 강화 골렘
+            case 8: // 강화 골렘
                 switch (atkType)
                 {
                     case AttackType.Normal:

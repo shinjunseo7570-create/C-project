@@ -26,13 +26,12 @@ public class AttackModeData : ScriptableObject // **ScriptableObject�� ��
     // ����� ����Ʈ/����ü ���� ������
     public GameObject assetPrefab;
 
-    public ElementType element; 
+    public ElementType elementType; 
     public AttackType attackType;
 }
 
 public enum ElementType
 {
-
     Fire, 
     Water, 
     Wind, 

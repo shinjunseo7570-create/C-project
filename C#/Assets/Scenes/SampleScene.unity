@@ -22580,7 +22580,19 @@ MonoBehaviour:
       Speed: 1
       Range: 1
       groupCount: 1
-    mobCount: 1
+    - spriteType: 1
+      Health: 0
+      Attack: 0
+      Speed: 1
+      Range: 1
+      groupCount: 1
+    - spriteType: 2
+      Health: 0
+      Attack: 0
+      Speed: 1
+      Range: 1
+      groupCount: 1
+    mobCount: 100
     bossSpawnData:
       spriteType: 0
       Health: 0
@@ -22589,19 +22601,19 @@ MonoBehaviour:
       Range: 1
       groupCount: 1
   - mobSpawnDatas:
-    - spriteType: 1
+    - spriteType: 3
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
       groupCount: 10
-    - spriteType: 2
+    - spriteType: 4
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
       groupCount: 1
-    - spriteType: 3
+    - spriteType: 5
       Health: 0
       Attack: 0
       Speed: 1
@@ -22616,19 +22628,19 @@ MonoBehaviour:
       Range: 1
       groupCount: 1
   - mobSpawnDatas:
-    - spriteType: 4
+    - spriteType: 6
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
       groupCount: 10
-    - spriteType: 5
+    - spriteType: 7
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
       groupCount: 2
-    - spriteType: 6
+    - spriteType: 8
       Health: 0
       Attack: 0
       Speed: 1
@@ -22636,14 +22648,14 @@ MonoBehaviour:
       groupCount: 1
     mobCount: 100
     bossSpawnData:
-      spriteType: 6
+      spriteType: 8
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
       groupCount: 1
   poolManager: {fileID: 1396847701}
-  spawnDelay: 3
+  spawnDelay: 0
 --- !u!1 &1263106928 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7993242518743667706, guid: f2003a5cc751ce347a3490ac0e0488fa,
@@ -22882,6 +22894,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoolManager
   prefabs:
+  - {fileID: 8527975189997329003, guid: 5b6cd1a4786134b41ad25b60c5acaf7f, type: 3}
+  - {fileID: 8527975189997329003, guid: 65f431030e0bf4054b7893c279a13cd2, type: 3}
   - {fileID: 8527975189997329003, guid: 6a50b495f6832d949988993ef9566d01, type: 3}
   - {fileID: 9099763189878034037, guid: bc89fc112791b5e4cb47b8ff9880837c, type: 3}
   - {fileID: 5562379956226744029, guid: f7ab10766c8231f4094faad1f53c7232, type: 3}

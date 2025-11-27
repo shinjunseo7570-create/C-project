@@ -45,6 +45,7 @@ public class PlayerSkillController : MonoBehaviour
 
     private void Start()
     {
+        
         // 게임 시작 시 첫 번째 무기, 첫 번째 속성으로 초기화
         if (availableAttackModes.Count > 0)
         {
@@ -146,7 +147,7 @@ public class PlayerSkillController : MonoBehaviour
 
         currentElementIndex = index;
         // [수정] availableElements 안의 element 속성을 가져옴 (오류 해결)
-        currentElement = availableElements[index].element;
+        currentElement = availableElements[index].elementType;
 
         Debug.Log($"속성 변경됨: {currentElement}");
     }
@@ -159,7 +160,7 @@ public class PlayerSkillController : MonoBehaviour
         // 들어온 속성과 일치하는 데이터를 리스트에서 찾아서 장착
         for (int i = 0; i < availableElements.Count; i++)
         {
-            if (availableElements[i].element == element)
+            if (availableElements[i].elementType == element)
             {
                 EquipElement(i);
                 return;

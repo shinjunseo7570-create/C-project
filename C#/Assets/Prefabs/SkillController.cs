@@ -35,7 +35,7 @@ public class SkillController : MonoBehaviour
         this.moveSpeed = data.projectileSpeed;
         this.maxRange = data.range;
         this.damage = data.damage;
-        this.element = data.element;
+        this.element = data.elementType;
 
         this.AttackType = data.attackType;
 
