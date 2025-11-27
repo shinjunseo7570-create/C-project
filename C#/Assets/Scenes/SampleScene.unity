@@ -22579,18 +22579,28 @@ MonoBehaviour:
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
       groupCount: 1
     - spriteType: 1
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
       groupCount: 1
     - spriteType: 2
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
+      groupCount: 1
+    - spriteType: 7
+      Health: 0
+      Attack: 0
+      Speed: 1
+      Range: 10
+      RangedType: 1
       groupCount: 1
     mobCount: 100
     bossSpawnData:
@@ -22599,6 +22609,7 @@ MonoBehaviour:
       Attack: 0
       Speed: 2
       Range: 1
+      RangedType: 0
       groupCount: 1
   - mobSpawnDatas:
     - spriteType: 3
@@ -22606,18 +22617,21 @@ MonoBehaviour:
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
       groupCount: 10
     - spriteType: 4
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
       groupCount: 1
     - spriteType: 5
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
       groupCount: 4
     mobCount: 100
     bossSpawnData:
@@ -22626,6 +22640,7 @@ MonoBehaviour:
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
       groupCount: 1
   - mobSpawnDatas:
     - spriteType: 6
@@ -22633,18 +22648,21 @@ MonoBehaviour:
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
       groupCount: 10
     - spriteType: 7
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
       groupCount: 2
     - spriteType: 8
       Health: 0
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
       groupCount: 1
     mobCount: 100
     bossSpawnData:
@@ -22653,6 +22671,7 @@ MonoBehaviour:
       Attack: 0
       Speed: 1
       Range: 1
+      RangedType: 0
       groupCount: 1
   poolManager: {fileID: 1396847701}
   spawnDelay: 0

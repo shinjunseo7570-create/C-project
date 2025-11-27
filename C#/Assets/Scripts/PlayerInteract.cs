@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] float runSpeed = 10;

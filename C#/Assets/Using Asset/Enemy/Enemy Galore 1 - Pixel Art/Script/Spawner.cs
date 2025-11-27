@@ -185,6 +185,7 @@ public class SpawnData
     public int Attack;
     public int Speed;
     public float Range; // 사정거리
+    public bool RangedType; // 적 공격유형 근접 false, 원거리 true
     public int groupCount = 1;
 }
 
