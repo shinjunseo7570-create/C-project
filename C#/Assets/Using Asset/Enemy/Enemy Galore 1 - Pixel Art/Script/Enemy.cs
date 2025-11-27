@@ -11,11 +11,8 @@ public class Enemy : MonoBehaviour
     public float maxHealth;
     public Rigidbody2D target;
     public int Power = 1;
-    public bool isRanged = false;
 
-    [Header("Ranged Attack")]
-    public GameObject Bullet;
-    public float bulletSpeed = 5f;  // 총알 속도
+    
 
     public bool isBoss = false;
 
@@ -188,26 +185,9 @@ public class Enemy : MonoBehaviour
         // 4) 사정거리 안 + 쿨타임 끝났으면 공격 시작
         if (distance <= attackRange && attackTimer >= attackDelay)
         {
-            
-            //4-1) 근접일경우의 공격
-            if (isRanged == false)
-            {
-                attackTimer = 0f;
-                StartCoroutine(AttackRoutine());
-            }
-            
-
-            //4-2) 원거리일경우의 공격
-            else if (isRanged == true)
-            {
-                attackTimer = 0f;
-                StartCoroutine(RangedAttackRoutine());
-            }
-
+            attackTimer = 0f;
+            StartCoroutine(AttackRoutine());
         }
-
-      
-       
     }
 
     // 평소에 플레이어를 향해 날아가는 동작
@@ -220,7 +200,6 @@ public class Enemy : MonoBehaviour
         // 평소 상태는 공격 아님
         anim.SetBool("isAttack", false);
     }
-
 
     void AttackPlayer()
     {
@@ -259,44 +238,6 @@ public class Enemy : MonoBehaviour
 
         // 공격 애니메이션이 끝날 때까지 대기
         yield return new WaitForSeconds(attackAnimDuration);
-
-        // 공격 끝 → 다시 평상시 상태로
-        anim.SetBool("isAttack", false);
-        isAttacking = false;
-    }
-
-    IEnumerator RangedAttackRoutine()
-    {
-        isAttacking = true;
-        hasDealtDamageThisAttack = false;
-
-        // 공격 시작: 이동 멈추고, 공격 애니메이션 ON
-        rigid.linearVelocity = Vector2.zero;
-        anim.SetBool("isAttack", true);
-
-
-        // 공격 애니메이션이 끝날 때까지 대기
-        yield return new WaitForSeconds(attackAnimDuration);
-
-        //투사체 소환
-        GameObject bullet = Instantiate(Bullet, transform.position, Quaternion.identity);
-
-        //플레이어 방향 계산
-        Vector2 dirVec = target.position - rigid.position;
-        Vector2 nextVec = dirVec.normalized;
-
-        Rigidbody2D bulletRigid = bullet.GetComponent<Rigidbody2D>();
-
-        if (bulletRigid != null)
-        {
-            bulletRigid.linearVelocity = nextVec * bulletSpeed;
-
-            float angle = Mathf.Atan2(nextVec.y, nextVec.x) * Mathf.Rad2Deg;
-            bullet.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-        }
-
-        //yield return new WaitForSeconds(0.16f);
 
         // 공격 끝 → 다시 평상시 상태로
         anim.SetBool("isAttack", false);
@@ -367,7 +308,6 @@ public class Enemy : MonoBehaviour
         health = data.Health;
         attackRange = data.Range;
         Power = data.Attack;
-        isRanged = data.RangedType;
 
         float spawnDist = Vector2.Distance(target.position, rigid.position);
         Debug.Log($"[Enemy.Init] spawnDist = {spawnDist}");
