@@ -32,7 +32,7 @@ public class SkillController : MonoBehaviour
         if (this.AttackType == AttackType.Area)
         {
             isAreaActive = true; 
-            Destroy(gameObject, 0.11f); // 생성 5초 후 파괴
+            Destroy(gameObject, 0.2f); // 생성 0.2초 후 파괴
         }
         else
         {
@@ -67,14 +67,14 @@ public class SkillController : MonoBehaviour
         {
             if (AttackType == AttackType.Area)
             {
-                // [Area 타입]
-                // 파괴되지 않고, 그 자리에서 멈춰서 0.1초간 유지됨
+                // Area 타입
+                // 파괴되지 않고, 그 자리에서 멈춰서 0.2초간 유지됨
                 isAreaActive = true;
-                Destroy(gameObject, 0.1f);
+                Destroy(gameObject, 0.2f);
             }
             else
             {
-                // [나머지 타입 (Normal, Melee 등)]
+                // 나머지 타입
                 // 사거리를 벗어나면 즉시 파괴
                 Destroy(gameObject);
             }
