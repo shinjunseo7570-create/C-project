@@ -28533,6 +28533,16 @@ PrefabInstance:
       propertyPath: poolManager
       value: 
       objectReference: {fileID: 1396847701}
+    - target: {fileID: 4875461880911074467, guid: 516761d42afda6542a66a9b4e791c118,
+        type: 3}
+      propertyPath: rounds.Array.data[0].mobCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875461880911074467, guid: 516761d42afda6542a66a9b4e791c118,
+        type: 3}
+      propertyPath: rounds.Array.data[1].mobCount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5593888130389922296, guid: 516761d42afda6542a66a9b4e791c118,
         type: 3}
       propertyPath: menuManager

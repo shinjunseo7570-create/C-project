@@ -15,11 +15,11 @@ MonoBehaviour:
   modeName: "\uADFC\uC811"
   attackInterval: 1.5
   damage: 2
-  range: 5
+  range: 1
   projectileSpeed: 10
   isMultiTarget: 1
   elementName: Fire
   assetPrefab: {fileID: 4995297742569702975, guid: dfe52321c255fda43bfca9a1d962183b,
     type: 3}
-  element: 0
+  elementType: 0
   attackType: 2

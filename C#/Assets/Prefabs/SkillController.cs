@@ -13,22 +13,9 @@ public class SkillController : MonoBehaviour
 
     private ElementType element = ElementType.Fire;
 
-    public AttackType AttackType { get; private set; }
-
-    public void Init(float _speed, float _range, float _damage)
-    {
-        this.moveSpeed = _speed;
-        this.maxRange = _range;
-        this.damage = _damage;
-
-        // 시작 위치 저장 (사거리 계산용)
-        
-
-        this.startPosition = transform.position;
-
-        // 사거리에 안 닿아도 10초 뒤엔 무조건 파괴
-        Destroy(gameObject, 10f);
-    }
+    public AttackType AttackType;
+   
+    private bool isAreaActive = false;
 
     public void Init(AttackModeData data)
     {
@@ -41,19 +28,56 @@ public class SkillController : MonoBehaviour
 
         this.startPosition = transform.position;
 
-        Destroy(gameObject, 10f);
+        // Area 생성되자마자 고정
+        if (this.AttackType == AttackType.Area)
+        {
+            isAreaActive = true; 
+            Destroy(gameObject, 0.11f); // 생성 5초 후 파괴
+        }
+        else
+        {
+            // 다른 타입은 못 맞추면 20초 뒤 파괴
+            Destroy(gameObject, 20f);
+        }
+    }
+
+    public void Init(float _speed, float _range, float _damage)
+    {
+        this.moveSpeed = _speed;
+        this.maxRange = _range;
+        this.damage = _damage;
+
+        // 시작 위치 저장 (사거리 계산용)
+
+
+        this.startPosition = transform.position;
+
+        // 사거리에 안 닿아도 10초 뒤엔 무조건 파괴
+        Destroy(gameObject, 20f);
     }
 
     void Update()
     {
-        
+        if (isAreaActive) return;
         transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
 
         // 사거리 체크
         float distance = Vector3.Distance(startPosition, transform.position);
         if (distance >= maxRange)
         {
-            Destroy(gameObject); // 사거리 벗어나면 파괴
+            if (AttackType == AttackType.Area)
+            {
+                // [Area 타입]
+                // 파괴되지 않고, 그 자리에서 멈춰서 0.1초간 유지됨
+                isAreaActive = true;
+                Destroy(gameObject, 0.1f);
+            }
+            else
+            {
+                // [나머지 타입 (Normal, Melee 등)]
+                // 사거리를 벗어나면 즉시 파괴
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -67,8 +91,23 @@ public class SkillController : MonoBehaviour
             // other.GetComponent<EnemyScript>().TakeDamage(damage);
             Debug.Log($"몬스터 명중! 데미지: {damage}");
 
-            //자신을 파괴
-            Destroy(gameObject);
+            switch (AttackType)
+            {
+                case AttackType.Melee:
+                    // Melee 관통                 
+                    // 최대 사거리에서 파괴
+                    break;
+
+                case AttackType.Area:
+                    // Area 설치형                                    
+                    break;
+
+                default:
+                    // Normal, Snipe
+                    // 맞자마자 즉시 파괴
+                    Destroy(gameObject);
+                    break;
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   modeName: "\uADFC\uC811"
   attackInterval: 1.5
   damage: 2
-  range: 5
+  range: 1
   projectileSpeed: 10
   isMultiTarget: 1
   elementName: Wind

@@ -88,17 +88,32 @@ public class PlayerSkillController : MonoBehaviour
             finalPrefab = currentAttackMode.assetPrefab;
         }
 
-        // 발사 위치 및 회전 계산
-        Vector3 spawnPosition = (Balsa != null) ? Balsa.position : transform.position;
-        spawnPosition.z = 0f;
-
+        // 마우스 위치 계산 (Area)
         Vector3 mouseScreenPos = Input.mousePosition;
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
         mouseWorldPos.z = 0f;
 
-        Vector3 direction = (mouseWorldPos - spawnPosition).normalized;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion spawnRotation = Quaternion.Euler(0, 0, angle);
+        Vector3 spawnPosition;
+        Quaternion spawnRotation;
+
+        // 공격 타입에 따른 위치 분기 처리
+        if (currentAttackMode.attackType == AttackType.Area)
+        {
+            // [Area] 마우스 클릭 위치에 생성
+            spawnPosition = mouseWorldPos;
+            spawnRotation = Quaternion.identity; // 회전 없음 (필요하면 변경)
+        }
+        else
+        {
+            // [Normal, Snipe, Melee] 플레이어 발사대 위치에서 생성
+            spawnPosition = (Balsa != null) ? Balsa.position : transform.position;
+            spawnPosition.z = 0f;
+
+            // 마우스 방향으로 회전
+            Vector3 direction = (mouseWorldPos - spawnPosition).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            spawnRotation = Quaternion.Euler(0, 0, angle);
+        }
 
         // 투사체 생성 
         if (finalPrefab != null)

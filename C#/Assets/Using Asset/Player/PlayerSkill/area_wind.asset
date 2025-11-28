@@ -15,7 +15,7 @@ MonoBehaviour:
   modeName: "\uC9C0\uD615"
   attackInterval: 1
   damage: 1
-  range: 20
+  range: 0
   projectileSpeed: 10
   isMultiTarget: 1
   elementName: Wind

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
   modeName: Melee
   attackInterval: 1
-  damage: 1
-  range: 5
+  damage: 10
+  range: 1
   projectileSpeed: 10
   isMultiTarget: 0
   elementName: Default Element
   assetPrefab: {fileID: 0}
-  element: 0
+  elementType: 0
   attackType: 2

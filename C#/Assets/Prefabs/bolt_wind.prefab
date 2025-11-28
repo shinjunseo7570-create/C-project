@@ -193,3 +193,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a4fc852cd5f0f34b85601596d9c4947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillController
+  currentAttackMode: {fileID: 11400000, guid: 685bca6f75ef75f4b92f8c13a7fd2636, type: 2}
