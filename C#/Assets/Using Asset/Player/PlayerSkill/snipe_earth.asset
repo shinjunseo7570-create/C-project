@@ -21,5 +21,5 @@ MonoBehaviour:
   elementName: Earth
   assetPrefab: {fileID: 4875399373175959950, guid: 5c0e91f11049d554dbc7f576f0f4d774,
     type: 3}
-  element: 3
+  elementType: 3
   attackType: 1

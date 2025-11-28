@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d9ac401b1b3ec14d9ac688a387fd827, type: 3}
   m_Name: normal_fire
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
-  modeName: "\uC77C\uBC18"
+  modeName: Fire
   attackInterval: 0.5
   damage: 1
   range: 5
@@ -21,5 +21,5 @@ MonoBehaviour:
   elementName: Fire
   assetPrefab: {fileID: 9206725118541287248, guid: 6418b281c8d6feb43b2f971b4beb5397,
     type: 3}
-  element: 0
+  elementType: 0
   attackType: 0

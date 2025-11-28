@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d9ac401b1b3ec14d9ac688a387fd827, type: 3}
   m_Name: normal_earth
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
-  modeName: "\uC77C\uBC18"
+  modeName: Earth
   attackInterval: 0.5
   damage: 1
   range: 5
@@ -21,5 +21,5 @@ MonoBehaviour:
   elementName: Earth
   assetPrefab: {fileID: 9206725118541287248, guid: 9545a34f372a38c4bab197e25b3c1be8,
     type: 3}
-  element: 3
+  elementType: 3
   attackType: 0

@@ -28540,6 +28540,11 @@ PrefabInstance:
       objectReference: {fileID: 808037998}
     - target: {fileID: 5593888130389922296, guid: 516761d42afda6542a66a9b4e791c118,
         type: 3}
+      propertyPath: currentElement
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593888130389922296, guid: 516761d42afda6542a66a9b4e791c118,
+        type: 3}
       propertyPath: attackSelectionUI
       value: 
       objectReference: {fileID: 866649171}

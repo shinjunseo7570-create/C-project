@@ -21,5 +21,5 @@ MonoBehaviour:
   elementName: Wind
   assetPrefab: {fileID: 3707324906858692016, guid: 66bacf25c289e3540b41dc9b74ecc22f,
     type: 3}
-  element: 2
+  elementType: 2
   attackType: 3
