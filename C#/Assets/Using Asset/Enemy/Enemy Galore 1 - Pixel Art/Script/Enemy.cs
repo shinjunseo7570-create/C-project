@@ -12,7 +12,13 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D target;
     public int Power = 1;
 
-    
+    [Header("Projectile Settings")]
+    public bool useProjectile = false;                 // 골렘이면 체크
+    public GameObject projectilePrefab;                // GolemProjectile 프리팹
+    public Transform projectileSpawnPoint;             // 손/입 같은 발사 위치
+    public float projectileSpeed = 5f;
+    public int projectileDamage = 1;
+
 
     public bool isBoss = false;
 
@@ -235,13 +241,60 @@ public class Enemy : MonoBehaviour
         rigid.linearVelocity = Vector2.zero;
         anim.SetBool("isAttack", true);
 
+        yield return new WaitForSeconds(attackAnimDuration * 0.5f);
 
-        // 공격 애니메이션이 끝날 때까지 대기
-        yield return new WaitForSeconds(attackAnimDuration);
+        if (useProjectile)
+        {
+            ShootProjectile();
+        }
+        
+        yield return new WaitForSeconds(attackAnimDuration * 0.5f);
+        
+
 
         // 공격 끝 → 다시 평상시 상태로
         anim.SetBool("isAttack", false);
         isAttacking = false;
+    }
+
+    void ShootProjectile()
+    {
+        if (!useProjectile) return;
+        if(projectilePrefab == null || projectileSpawnPoint == null || target == null)
+        {
+            return;
+        }
+        
+
+        Vector2 dir = (target.position - (Vector2)projectileSpawnPoint.position).normalized;
+
+        
+
+        GameObject projObj = Instantiate(
+            projectilePrefab,
+            projectileSpawnPoint.position,
+            Quaternion.identity
+        );
+
+        SpriteRenderer sr = projObj.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.flipX = (dir.x < 0);
+        }
+
+        Rigidbody2D projRb = projObj.GetComponent<Rigidbody2D>();
+        if(projRb != null)
+        {
+            projRb.linearVelocity = dir * projectileSpeed;
+        }
+
+        GolemProjectile proj = projObj.GetComponent<GolemProjectile>();
+
+        if(proj != null)
+        {
+            proj.damage = projectileDamage;
+        }
+
     }
 
     IEnumerator DieRoutine()
@@ -366,6 +419,8 @@ public class Enemy : MonoBehaviour
     void Damaged()
     {
         if (hasDealtDamageThisAttack) return;
+
+        hasDealtDamageThisAttack = true;
 
         PlayerInteract player = target.GetComponent<PlayerInteract>();
         if(player != null)

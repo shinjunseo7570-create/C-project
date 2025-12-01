@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 899315698257640460, guid: ea66931b963ce0c43ac4a901a9bd2e62, type: 3}
-  m_Color: {r: 0, g: 0.4029851, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.26829147, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -197,6 +197,11 @@ MonoBehaviour:
   maxHealth: 0
   target: {fileID: 8219430748649789587, guid: 516761d42afda6542a66a9b4e791c118, type: 3}
   Power: 1
+  useProjectile: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
+  projectileSpeed: 5
+  projectileDamage: 1
   isBoss: 0
   attackRange: 0
   attackDelay: 1

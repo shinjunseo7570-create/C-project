@@ -8,6 +8,7 @@ public class PlayerInteract : MonoBehaviour
     Animator myAnimator;
     Rigidbody2D myRigidbody;
 
+    public int maxHp = 10;
     [SerializeField]  public int Hp = 10;
 
    

@@ -14,6 +14,12 @@ public class RaidalMenuManager : MonoBehaviour
 
     public bool isMenuOpen = false;
 
+    public float qCooldown = 3f;
+    public float eCooldown = 3f;
+
+    public float qRemain = 0f;
+    public float eRemain = 0f;
+
     void Start()
     {
         // �����ҋ� �޴� ����
@@ -23,20 +29,38 @@ public class RaidalMenuManager : MonoBehaviour
 
     void Update()
     {
+        if (qRemain > 0f) qRemain -= Time.unscaledDeltaTime;
+        if (eRemain > 0f) eRemain -= Time.unscaledDeltaTime;
+
+        if (qRemain < 0f) qRemain = 0f;
+        if (eRemain < 0f) eRemain = 0f;
+
+
         // �޴� ���ÿ� �ȶ߰� ����
         if (!isMenuOpen)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Q) && qRemain <= 0f)
             {
-                Debug.Log("[RM] Q pressed");
+                // Debug.Log("[RM] Q pressed");
+                
                 OpenElementMenu();
             }
-            else if (Input.GetKeyDown(KeyCode.E))
+            else if (Input.GetKeyDown(KeyCode.E) && eRemain <= 0f)
             {
-                Debug.Log("[RM] E pressed");
+                // Debug.Log("[RM] E pressed");
                 OpenAttackMenu();
             }
         }
+    }
+
+    public float GetQCooldownRatio()
+    {
+        return Mathf.Clamp01(qRemain / qCooldown);
+    }
+
+    public float GetECooldownRatio()
+    {
+        return Mathf.Clamp01(eRemain / eCooldown);
     }
 
     public bool IsMenuOpen()
@@ -66,7 +90,32 @@ public class RaidalMenuManager : MonoBehaviour
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 
-    public void CloseAllMenus()
+    public void CloseElementMenu()
+    {
+        isMenuOpen = false;
+        elementMenuRoot.SetActive(false);
+        attackMenuRoot.SetActive(false);
+
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
+
+        qRemain = qCooldown;
+
+    }
+
+    public void CloseAttackMenu()
+    {
+        isMenuOpen = false;
+        elementMenuRoot.SetActive(false);
+        attackMenuRoot.SetActive(false);
+
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
+
+        eRemain = eCooldown;
+    }
+
+    /*public void CloseAllMenus()
     {
         isMenuOpen = false;
         elementMenuRoot.SetActive(false);
@@ -75,7 +124,7 @@ public class RaidalMenuManager : MonoBehaviour
         // �ð� �������
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
-    }
+    }*/
 
     // ---------- ��ư���� ȣ���� �Լ��� ----------
 
@@ -84,28 +133,28 @@ public class RaidalMenuManager : MonoBehaviour
     {
         player.SetElement(ElementType.Fire);
         Debug.Log("원소변형됨 : 불");
-        CloseAllMenus();
+        CloseElementMenu();
     }
 
     public void SelectElement_Water()
     {
         player.SetElement(ElementType.Water);
         Debug.Log("원소변형됨 : 물");
-        CloseAllMenus();
+        CloseElementMenu();
     }
 
     public void SelectElement_Wind()
     {
         player.SetElement(ElementType.Wind);
         Debug.Log("원소변형됨 : 바람");
-        CloseAllMenus();
+        CloseElementMenu();
     }
 
     public void SelectElement_Earth()
     {
         player.SetElement(ElementType.Earth);
         Debug.Log("원소변형됨 : 땅");
-        CloseAllMenus();
+        CloseElementMenu();
     }
 
     // ���� Ÿ�� ����
@@ -113,27 +162,27 @@ public class RaidalMenuManager : MonoBehaviour
     {
         player.SetAttackType(AttackType.Normal);
         Debug.Log("공격방식 변형됨 : 일반");
-        CloseAllMenus();
+        CloseAttackMenu();
     }
 
     public void SelectAttack_Melee()
     {
         player.SetAttackType(AttackType.Melee);
         Debug.Log("공격방식 변형됨 : 근접");
-        CloseAllMenus();
+        CloseAttackMenu();
     }
 
     public void SelectAttack_Snipe()
     {
         player.SetAttackType(AttackType.Snipe);
         Debug.Log("공격방식 변형됨 : 저격");
-        CloseAllMenus();
+        CloseAttackMenu();
     }
 
     public void SelectAttack_Area()
     {
         player.SetAttackType(AttackType.Area);
         Debug.Log("공격방식 변형됨 : 지정");
-        CloseAllMenus();
+        CloseAttackMenu();
     }
 }
