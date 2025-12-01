@@ -41,14 +41,15 @@ public class SkillController : MonoBehaviour
         }
     }
 
-    public void Init(float _speed, float _range, float _damage)
+    public void Init(float _speed, float _range, float _damage, ElementType _element, AttackType _type)
     {
         this.moveSpeed = _speed;
         this.maxRange = _range;
         this.damage = _damage;
 
-        // 시작 위치 저장 (사거리 계산용)
-
+        
+        this.element = _element;
+        this.AttackType = _type;
 
         this.startPosition = transform.position;
 

@@ -124,7 +124,7 @@ public class PlayerSkillController : MonoBehaviour
             SkillController skillScript = projectile.GetComponent<SkillController>();
             if (skillScript != null)
             {
-                skillScript.Init(currentAttackMode.projectileSpeed, currentAttackMode.range, currentAttackMode.damage);
+                skillScript.Init(currentAttackMode.projectileSpeed, currentAttackMode.range, currentAttackMode.damage, currentElement, currentAttackMode.attackType);
             }
         }
 
