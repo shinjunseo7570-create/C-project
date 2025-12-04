@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
   modeName: Normal
   attackInterval: 1
-  damage: 1
+  damage: 7
   range: 5
   projectileSpeed: 10
   isMultiTarget: 0
   elementName: Default Element
   assetPrefab: {fileID: 0}
-  element: 0
+  elementType: 0
   attackType: 0

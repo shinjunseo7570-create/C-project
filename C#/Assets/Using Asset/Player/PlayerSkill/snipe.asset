@@ -15,10 +15,10 @@ MonoBehaviour:
   modeName: Snipe
   attackInterval: 1
   damage: 1
-  range: 5
+  range: 15
   projectileSpeed: 10
   isMultiTarget: 0
   elementName: Default Element
   assetPrefab: {fileID: 0}
-  element: 0
+  elementType: 0
   attackType: 1

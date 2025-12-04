@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
   modeName: Area
   attackInterval: 1
-  damage: 1
+  damage: 5
   range: 0
   projectileSpeed: 10
   isMultiTarget: 0

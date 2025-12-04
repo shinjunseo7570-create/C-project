@@ -11,7 +11,7 @@ public class PlayerInteract : MonoBehaviour
     public int maxHp = 10;
     [SerializeField]  public int Hp = 10;
 
-   
+    public GameManager gameManager;
 
 
     void Start()
@@ -64,6 +64,7 @@ public class PlayerInteract : MonoBehaviour
 
     void Die()
     {
+        gameManager.GameOver();
         Debug.Log("GameOver");
     }
 }
