@@ -105,18 +105,18 @@ public class Spawner : MonoBehaviour
         SpawnData data = round.mobSpawnDatas[mobIndex];
 
         int maxCanSpawn = round.mobCount - spawnedCount;
-        if(maxCanSpawn <= 0)
+        if (maxCanSpawn <= 0)
         {
             return;
         }
 
         int groupCount = data.groupCount;
-        if(groupCount > maxCanSpawn)
+        if (groupCount > maxCanSpawn)
         {
             groupCount = maxCanSpawn;
         }
 
-  
+
 
         int rand = Random.Range(0, spawnPoint.Length);
         Vector3 basepos = spawnPoint[rand].position;
@@ -128,28 +128,34 @@ public class Spawner : MonoBehaviour
         if (Vector3.Distance(basepos, playerPos) < minDistance)
             return;
 
-        for(int i = 0; i < groupCount; i++)
+        for (int i = 0; i < groupCount; i++)
         {
             GameObject enemyObj = poolManager.Get(data.spriteType);
             Enemy enemy = enemyObj.GetComponent<Enemy>();
 
-            Vector3 pos = basepos;
+            if (enemy == null)
+            {
+                Debug.LogError($"[Spawn ERROR] Enemy 컴포넌트 없음! spriteType={data.spriteType}, objName={enemyObj.name}");
+                enemyObj.SetActive(false); // 혹시 화면에 떠 버리면 끄기
+                return;  // aliveCount / spawnedCount 올리지 말고 탈출
+            }
 
             enemyObj.transform.position = basepos;
 
             enemy.isBoss = false;
             enemy.Init(data);
+
             aliveCount++;
             spawnedCount++;
         }
-        
 
-        
 
-        
-        
 
-        
+
+
+
+
+
         //Debug.Log($"[SpawnMob] Round {currentRound}, spriteType = {round.mobSpawnData.spriteType}");
     }
 
@@ -183,7 +189,7 @@ public class SpawnData
     public int spriteType;
     public int Health;
     public int Attack;
-    public int Speed;
+    public float Speed;
     public float Range; // 사정거리
     public int groupCount = 1;
 }

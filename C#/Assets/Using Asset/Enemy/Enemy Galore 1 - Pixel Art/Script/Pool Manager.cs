@@ -14,7 +14,7 @@ public class PoolManager : MonoBehaviour
     {
         pools = new List<GameObject>[prefabs.Length];
 
-        for(int index = 0; index < pools.Length; index++)
+        for (int index = 0; index < pools.Length; index++)
         {
             pools[index] = new List<GameObject>();
         }
@@ -25,26 +25,31 @@ public class PoolManager : MonoBehaviour
     {
         GameObject select = null;
 
-        // 선택한 풀의 놀고 있는 게임 오브젝트 접근
-        
-
+        // 1) 이미 만들어진 것 중에서 비활성화 된 애 찾기
         foreach (GameObject item in pools[index])
         {
             if (!item.activeSelf)
             {
-                // 발견하면 select 변수에 할당
                 select = item;
-                select.SetActive(true);
                 break;
             }
         }
 
-        // 못 찾으면 새롭게 생성하고 select 변수에 할당
-        if (!select)
+        // 2) 못 찾으면 새로 생성
+        if (select == null)
         {
             select = Instantiate(prefabs[index], transform);
-            select.SetActive(true);
             pools[index].Add(select);
+        }
+
+        // 3) 공통 초기화
+        select.SetActive(true);
+
+        // 🔍 여기서 Enemy 체크 (디버그용)
+        Enemy enemy = select.GetComponent<Enemy>();
+        if (enemy == null)
+        {
+            Debug.LogError($"[Pool ERROR] index {index} 프리팹에 Enemy 컴포넌트가 없음! prefabName={prefabs[index].name}, objName={select.name}");
         }
 
         return select;

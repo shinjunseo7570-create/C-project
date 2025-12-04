@@ -4,6 +4,17 @@ public class GolemProjectile : MonoBehaviour
 {
     public int damage = 1;
     public float lifeTime = 3f;
+    private Rigidbody2D rb;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void Launch(Vector2 dir, float speed)
+    {
+        rb.linearVelocity = dir * speed;
+    }
 
     void Start()
     {

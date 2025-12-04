@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4119204420964415020}
   m_Layer: 0
   m_Name: ReinforcedGolemProjectile 1
-  m_TagString: Enemy
+  m_TagString: Enemy_Skill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -217,5 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29bba0e8c23644648a52d104b64f9019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GolemProjectile
+  speed: 0
   damage: 1
   lifeTime: 3

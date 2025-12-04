@@ -8,6 +8,7 @@ TagManager:
   - Area
   - Enemy
   - Skill
+  - Enemy_Skill
   layers:
   - Default
   - TransparentFX

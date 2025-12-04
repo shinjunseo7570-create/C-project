@@ -45,6 +45,11 @@ public class Enemy : MonoBehaviour
 
     Collider2D col;
 
+    
+
+
+
+
     int typeId;
 
     float CalcElementMultiplier(ElementType elem)
@@ -93,10 +98,10 @@ public class Enemy : MonoBehaviour
     {
         float mult = 1f;
 
-        switch(typeId)
+        switch (typeId)
         {
             case 4: // 가재
-                switch(atkType)
+                switch (atkType)
                 {
                     case AttackType.Normal:
                         mult = 0.5f;
@@ -114,7 +119,7 @@ public class Enemy : MonoBehaviour
                         mult = 0.5f;
                         break;
                 }
-            break;
+                break;
 
             case 7: // 골렘
                 switch (atkType)
@@ -178,18 +183,13 @@ public class Enemy : MonoBehaviour
         float distance = Vector2.Distance(target.position, rigid.position);
         attackTimer += Time.fixedDeltaTime;
 
-        // 1) 공격 중이면: 자리에서 멈추고 애니메이션만 재생
-        if (isAttacking)
-        {
-            rigid.linearVelocity = Vector2.zero;
-            return;
-        }
+        
+        float currentSpeed = isAttacking ? speed * 1.1f : speed;
 
-        // 3) 기본 상태: 항상 플레이어 쪽으로 날아간다
-        Chase();
+        Chase(currentSpeed);
 
-        // 4) 사정거리 안 + 쿨타임 끝났으면 공격 시작
-        if (distance <= attackRange && attackTimer >= attackDelay)
+        
+        if (!isAttacking && distance <= attackRange && attackTimer >= attackDelay)
         {
             attackTimer = 0f;
             StartCoroutine(AttackRoutine());
@@ -197,14 +197,16 @@ public class Enemy : MonoBehaviour
     }
 
     // 평소에 플레이어를 향해 날아가는 동작
-    void Chase()
+    void Chase(float moveSpeed)
     {
         Vector2 dirVec = target.position - rigid.position;
-        Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
+        Vector2 nextVec = dirVec.normalized * moveSpeed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
 
-        // 평소 상태는 공격 아님
-        anim.SetBool("isAttack", false);
+        if (!isAttacking)
+        {
+            anim.SetBool("isAttack", false);
+        }
     }
 
     void AttackPlayer()
@@ -232,13 +234,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
+
     IEnumerator AttackRoutine()
     {
         isAttacking = true;
         hasDealtDamageThisAttack = false;
 
-        // 공격 시작: 이동 멈추고, 공격 애니메이션 ON
-        rigid.linearVelocity = Vector2.zero;
         anim.SetBool("isAttack", true);
 
         yield return new WaitForSeconds(attackAnimDuration * 0.5f);
@@ -247,12 +249,9 @@ public class Enemy : MonoBehaviour
         {
             ShootProjectile();
         }
-        
+
         yield return new WaitForSeconds(attackAnimDuration * 0.5f);
-        
 
-
-        // 공격 끝 → 다시 평상시 상태로
         anim.SetBool("isAttack", false);
         isAttacking = false;
     }
@@ -260,58 +259,59 @@ public class Enemy : MonoBehaviour
     void ShootProjectile()
     {
         if (!useProjectile) return;
-        if(projectilePrefab == null || projectileSpawnPoint == null || target == null)
-        {
+        if (projectilePrefab == null || projectileSpawnPoint == null || target == null)
             return;
+
+        Vector3 spawnPos = projectileSpawnPoint.position;
+        if (spriter.flipX)
+        {
+            // 몬스터 기준으로 X 오프셋을 좌우 반전
+            float offsetX = projectileSpawnPoint.position.x - transform.position.x;
+            spawnPos.x = transform.position.x - offsetX;
         }
-        
 
-        Vector2 dir = (target.position - (Vector2)projectileSpawnPoint.position).normalized;
-
-        
+        Vector2 dir = (target.position - (Vector2)spawnPos).normalized;
 
         GameObject projObj = Instantiate(
             projectilePrefab,
-            projectileSpawnPoint.position,
+            spawnPos,
             Quaternion.identity
         );
 
         SpriteRenderer sr = projObj.GetComponent<SpriteRenderer>();
         if (sr != null)
-        {
             sr.flipX = (dir.x < 0);
-        }
-
-        Rigidbody2D projRb = projObj.GetComponent<Rigidbody2D>();
-        if(projRb != null)
-        {
-            projRb.linearVelocity = dir * projectileSpeed;
-        }
 
         GolemProjectile proj = projObj.GetComponent<GolemProjectile>();
 
-        if(proj != null)
+        if (proj != null)
         {
             proj.damage = projectileDamage;
+
+            proj.Launch(dir, projectileSpeed);
         }
 
+
+
     }
+
+
 
     IEnumerator DieRoutine()
     {
         isAttacking = false;
 
-        if(rigid != null)
+        if (rigid != null)
         {
             rigid.linearVelocity = Vector2.zero;
         }
 
-        if(col != null)
+        if (col != null)
         {
             col.enabled = false;
         }
 
-        if(anim != null)
+        if (anim != null)
         {
             anim.SetBool("isAttack", false);
             anim.SetTrigger("Death");
@@ -343,13 +343,16 @@ public class Enemy : MonoBehaviour
         }
 
         isLive = true;
-        maxHealth = health;  // 혹시 maxHealth가 따로 세팅되어 있으면 이 줄 조절
-        health = maxHealth;
+        
 
         attackTimer = 0f;
         isAttacking = false;
         spawnTime = Time.time;
+        
+        
+
     }
+
 
     public void Init(SpawnData data)
     {
@@ -361,6 +364,16 @@ public class Enemy : MonoBehaviour
         health = data.Health;
         attackRange = data.Range;
         Power = data.Attack;
+
+        if (isBoss)
+        {
+            Enemy_Boss_Hp bosshpUI = FindAnyObjectByType<Enemy_Boss_Hp>();
+            if (bosshpUI != null)
+            {
+                bosshpUI.gameObject.SetActive(true);
+                bosshpUI.Setup(this);
+            }
+        }
 
         float spawnDist = Vector2.Distance(target.position, rigid.position);
         Debug.Log($"[Enemy.Init] spawnDist = {spawnDist}");
@@ -386,9 +399,9 @@ public class Enemy : MonoBehaviour
 
             Debug.Log($"[Enemy] type={typeId}, elem={skill.Element}, atkType={skill.AttackType}, elemMult={elemMult}, atkMult={atkMult}, dmg={skill.Damage} -> {finalDamage}");
 
-            if(health > 0)
+            if (health > 0)
             {
-                if(anim != null)
+                if (anim != null)
                 {
                     anim.SetTrigger("Hit");
                 }
@@ -423,7 +436,7 @@ public class Enemy : MonoBehaviour
         hasDealtDamageThisAttack = true;
 
         PlayerInteract player = target.GetComponent<PlayerInteract>();
-        if(player != null)
+        if (player != null)
         {
             player.TakeDamage(Power);
         }
@@ -436,6 +449,15 @@ public class Enemy : MonoBehaviour
         isLive = false;
 
         OnEnemyDead?.Invoke(this);
+
+        if(isBoss)
+        {
+            Enemy_Boss_Hp bosshpUI = FindAnyObjectByType<Enemy_Boss_Hp>();
+            if(bosshpUI != null)
+            {
+                bosshpUI.gameObject.SetActive(false);
+            }
+        }
 
         StartCoroutine(DieRoutine());
     }
