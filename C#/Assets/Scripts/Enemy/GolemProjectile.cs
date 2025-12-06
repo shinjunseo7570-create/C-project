@@ -3,7 +3,7 @@ using UnityEngine;
 public class GolemProjectile : MonoBehaviour
 {
     public int damage = 1;
-    public float lifeTime = 3f;
+    public float lifeTime = 10f;
     private Rigidbody2D rb;
 
     void Awake()
@@ -28,7 +28,10 @@ public class GolemProjectile : MonoBehaviour
             PlayerInteract player = collision.GetComponent<PlayerInteract>();
             if (player != null)
             {
-                player.TakeDamage(damage);
+                if (!player.IsInvincible)
+                {
+                    player.TakeDamage(damage);
+                }
             }
 
             Destroy(gameObject);

@@ -35,19 +35,74 @@ public class Spawner : MonoBehaviour
     void OnEnable()
     {
         Enemy.OnEnemyDead += HandleEnemyDead;
+        Enemy.OnBossPhase75 += HandleBossPhase75;
     }
 
     void OnDisable()
     {
         Enemy.OnEnemyDead -= HandleEnemyDead;
+        Enemy.OnBossPhase75 -= HandleBossPhase75;
+    }
+
+    void HandleBossPhase75(Enemy boss)
+    {
+        if (currentRound >= rounds.Length) return;
+        RoundData round = rounds[currentRound];
+
+        StartCoroutine(SpawnBossPhase75mob(round, boss));
+    }
+
+    // 75% 패턴
+    IEnumerator SpawnBossPhase75mob(RoundData round, Enemy boss)
+    {
+        if (round.phase75data == null || round.phase75data.Length == 0 || round.phase75count <= 0)
+        {
+            Debug.Log("[Boss75] 설정 오류");
+            yield break;
+        }
+
+        for(int i = 0; i < round.phase75count; i++)
+        {
+            int mobIndex = Random.Range(0, round.phase75data.Length);
+            SpawnData data = round.phase75data[mobIndex];
+
+            // 2) 보스 주변 랜덤 위치
+            Vector3 basePos = boss.transform.position;
+            basePos += new Vector3(Random.Range(-2f, 2f), -1f, 0f);
+
+            
+
+            // 3) 기존과 똑같이 PoolManager 통해 가져와서 Init
+            GameObject enemyObj = poolManager.Get(data.spriteType);
+            Enemy enemy = enemyObj.GetComponent<Enemy>();
+
+            if (enemy == null)
+            {
+                Debug.LogError($"[Boss75 Spawn ERROR] Enemy 컴포넌트 없음! spriteType={data.spriteType}, objName={enemyObj.name}");
+                enemyObj.SetActive(false);
+                continue;
+            }
+
+            enemyObj.transform.position = basePos;
+
+            enemy.isBoss = false;   
+            enemy.Init(data);
+
+            // 4) aliveCount 올려줘야 나중에 감소할 때 맞게 계산됨
+            aliveCount++;
+
+            yield return new WaitForSeconds(spawnDelay);
+        }
+
     }
 
     void HandleEnemyDead(Enemy enemy)
     {
+        
         aliveCount--;
 
-
-        if (aliveCount <= 0 && bossSpawned)
+        
+        if (enemy.isBoss)
         {
             currentRound++;
             ResetRoundState();
@@ -57,6 +112,7 @@ public class Spawner : MonoBehaviour
     void ResetRoundState()
     {
         spawnedCount = 0;
+        aliveCount = 0;
         bossSpawned = false;
         isSpawning = true;
         timer = 0f;
@@ -170,7 +226,7 @@ public class Spawner : MonoBehaviour
         enemyComp.isBoss = true;
         enemyComp.Init(round.bossSpawnData);
 
-        aliveCount++;
+        
         bossSpawned = true;
 
         // Debug.Log($"[SpawnBoss] Round {currentRound}, spriteType = {round.bossSpawnData.spriteType}");
@@ -200,5 +256,9 @@ public class RoundData
     public SpawnData[] mobSpawnDatas;
     public int mobCount = 100;
     public SpawnData bossSpawnData;
+
+    [Header("Boss 75% Phase")]
+    public SpawnData[] phase75data;
+    public int phase75count = 0;
 }
 

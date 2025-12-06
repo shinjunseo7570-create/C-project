@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
@@ -12,17 +13,25 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D target;
     public int Power = 1;
 
-    [Header("Projectile Settings")]
-    public bool useProjectile = false;                 // 골렘이면 체크
+    [Header("투사체 설정")]
+    public bool useProjectile = false;                 
     public GameObject projectilePrefab;                // GolemProjectile 프리팹
     public Transform projectileSpawnPoint;             // 손/입 같은 발사 위치
     public float projectileSpeed = 5f;
     public int projectileDamage = 1;
 
+    [Header("패턴용 투사체 설정")]               
+    public GameObject patternprojectilePrefab;                // GolemProjectile 프리팹
+    public Transform patternprojectileSpawnPoint;             // 손/입 같은 발사 위치
+    public float patternprojectileSpeed = 5f;
+    public int patternprojectileDamage = 1;
+
+
 
     public bool isBoss = false;
 
     public static Action<Enemy> OnEnemyDead;
+    public static Action<Enemy> OnBossPhase75;
 
     public float attackRange;
     public float attackDelay = 1f;
@@ -45,7 +54,14 @@ public class Enemy : MonoBehaviour
 
     Collider2D col;
 
-    
+    bool phase75 = false;
+    bool phase50 = false;
+    bool phase25 = false;
+
+    bool isPatternMode = false;
+
+
+
 
 
 
@@ -180,15 +196,21 @@ public class Enemy : MonoBehaviour
         if (!isLive || target == null)
             return;
 
+        if(isPatternMode)
+        {
+            rigid.linearVelocity = Vector2.zero;
+            return;
+        }
+
         float distance = Vector2.Distance(target.position, rigid.position);
         attackTimer += Time.fixedDeltaTime;
 
-        
+
         float currentSpeed = isAttacking ? speed * 1.1f : speed;
 
         Chase(currentSpeed);
 
-        
+
         if (!isAttacking && distance <= attackRange && attackTimer >= attackDelay)
         {
             attackTimer = 0f;
@@ -289,6 +311,8 @@ public class Enemy : MonoBehaviour
             proj.damage = projectileDamage;
 
             proj.Launch(dir, projectileSpeed);
+
+            Debug.Log($"발사 dir = {dir}");
         }
 
 
@@ -327,6 +351,9 @@ public class Enemy : MonoBehaviour
         if (!isLive || target == null)
             return;
 
+        if (isPatternMode)
+            return;
+
         // 플레이어의 X축 값과 적의 X축 값을 비교하여 작으면 true
         spriter.flipX = target.position.x < rigid.position.x;
     }
@@ -343,13 +370,14 @@ public class Enemy : MonoBehaviour
         }
 
         isLive = true;
-        
+
 
         attackTimer = 0f;
         isAttacking = false;
         spawnTime = Time.time;
-        
-        
+
+        if (col != null)
+            col.enabled = true;
 
     }
 
@@ -364,6 +392,9 @@ public class Enemy : MonoBehaviour
         health = data.Health;
         attackRange = data.Range;
         Power = data.Attack;
+
+        if (col != null)
+            col.enabled = true;
 
         if (isBoss)
         {
@@ -405,6 +436,7 @@ public class Enemy : MonoBehaviour
                 {
                     anim.SetTrigger("Hit");
                 }
+                CheckBossPhase();
             }
             else
             {
@@ -412,6 +444,183 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    void CheckBossPhase()
+    {
+        if (!isBoss) return;
+
+        float hpPercent = health / maxHealth;
+
+        if (!phase75 && hpPercent <= 0.75f)
+        {
+            phase75 = true;
+            
+            OnBossPhase75?.Invoke(this);
+        }
+
+        if (!phase50 && hpPercent <= 0.50f)
+        {
+            phase50 = true;
+            StartCoroutine(Phase50Loop());
+        }
+
+        if(!phase25 && hpPercent <= 0.25f)
+        {
+            phase25 = true;
+            StartCoroutine(Phase25Loop());
+        }
+    }
+
+    // 50% 패턴
+    IEnumerator Phase50Pattern(float rotateOffset = 0f)
+    {
+        Debug.Log("Boss 50% 패턴");
+
+        int count = 32; // 방향 개수 (원형)
+        float interval = 0f; // 발사 간격
+
+        for (int i = 0; i < count; i++)
+        {
+            // 0도~360도 사이를 32등분
+            float baseAngle = (360f / count) * i;
+            float jjaksooAngle = baseAngle + rotateOffset;
+
+            // 각도 → 방향 벡터 (cos, sin)
+            Vector2 dir = new Vector2(
+                Mathf.Cos(jjaksooAngle * Mathf.Deg2Rad),
+                Mathf.Sin(jjaksooAngle * Mathf.Deg2Rad)
+            ).normalized;
+
+            // 방향으로 투사체 발사
+            ShootCustomProjectile(dir);
+
+            // 조금씩 텀을 두고 연속 발사하고 싶으면 사용
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
+    // 50% 패턴 반복
+    IEnumerator Phase50Loop()
+    {
+        isPatternMode = true;
+
+        int repeatCount = 5;     
+        float delayBetween = 0.5f;
+
+        float offset = 5.625f; ;
+
+        for (int i = 1; i <= repeatCount; i++)
+        {
+            if (i % 2 == 1)
+            {
+                // 홀수(1,3,5) → 그대로 발사
+                Debug.Log($"[50% 패턴] {i}번째 발사 → rotateOffset = 0");
+                yield return StartCoroutine(Phase50Pattern(0f));
+            }
+            else
+            {
+                // 짝수(2,4) → 방향을 약간 틀어서 발사
+                Debug.Log($"[50% 패턴] {i}번째 발사 → rotateOffset = {offset}");
+                yield return StartCoroutine(Phase50Pattern(offset));
+            }
+
+            yield return new WaitForSeconds(delayBetween);
+        }
+
+        isPatternMode = false;
+    }
+
+    // 25% 패턴 반복
+    IEnumerator Phase25Loop()
+    {
+        isPatternMode = true;
+
+        int repeat = 5;
+        float delayBetween = 0f;
+
+        int count = 64;
+        float angleStep = 360f / count;
+        float offset = angleStep * 0.5f;
+
+
+        for (int i = 1; i <= repeat; i++)
+        {
+            if(i % 2 == 1)
+            {
+                yield return StartCoroutine(Phase25Pattern(0f));
+            }
+            else
+            {
+                yield return StartCoroutine(Phase25Pattern(offset));
+            }
+            
+
+            yield return new WaitForSeconds(delayBetween);
+        }
+
+        isPatternMode = false;
+    }
+
+    // 25% 패턴
+    IEnumerator Phase25Pattern(float rotateOffset = 0f)
+    {
+        Debug.Log("Boss 25% 패턴");
+
+
+
+        int count = 64;           // 전체 발사 횟수
+        float interval = 0.01f;   // 투사체 간격 (느리게 돌리려면 0.1~0.2 추천)
+        float angle = rotateOffset;         // 초기 각도
+        float angleStep = 360f / count;  // 매 발사마다 회전하는 각도
+
+        for (int i = 0; i < count; i++)
+        {
+            // 현재 angle을 기준으로 방향 벡터 계산
+            Vector2 dir = new Vector2(
+                Mathf.Cos(angle * Mathf.Deg2Rad),
+                Mathf.Sin(angle * Mathf.Deg2Rad)
+            ).normalized;
+
+            ShootCustomProjectile(dir);
+
+            // 다음 발사를 위해 각도 증가
+            angle += angleStep;
+
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
+    void ShootCustomProjectile(Vector2 dir)
+    {
+        GameObject prefab = patternprojectilePrefab != null ? patternprojectilePrefab : projectilePrefab;
+
+        if (prefab == null)
+            return;
+
+        Transform spawnT = patternprojectileSpawnPoint != null ? patternprojectileSpawnPoint : transform;
+
+        Vector3 spawnPos = spawnT.position;
+
+        GameObject projObj = Instantiate(
+            prefab,
+            spawnPos,  
+            Quaternion.identity
+        );
+
+        GolemProjectile proj = projObj.GetComponent<GolemProjectile>();
+        if (proj != null)
+        {
+            int dmg = (patternprojectileDamage > 0) ? patternprojectileDamage : projectileDamage;
+            float speed = (patternprojectileSpeed > 0f) ? patternprojectileSpeed : projectileSpeed * 0.75f;
+
+            proj.damage = dmg;
+            
+            proj.Launch(dir, speed * 0.75f);
+        }
+    }
+
+
+
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -438,7 +647,12 @@ public class Enemy : MonoBehaviour
         PlayerInteract player = target.GetComponent<PlayerInteract>();
         if (player != null)
         {
-            player.TakeDamage(Power);
+            bool damaged = player.TakeDamage(Power);
+
+            if (damaged)
+            {
+                hasDealtDamageThisAttack = true;
+            }
         }
     }
 
@@ -450,10 +664,10 @@ public class Enemy : MonoBehaviour
 
         OnEnemyDead?.Invoke(this);
 
-        if(isBoss)
+        if (isBoss)
         {
             Enemy_Boss_Hp bosshpUI = FindAnyObjectByType<Enemy_Boss_Hp>();
-            if(bosshpUI != null)
+            if (bosshpUI != null)
             {
                 bosshpUI.gameObject.SetActive(false);
             }

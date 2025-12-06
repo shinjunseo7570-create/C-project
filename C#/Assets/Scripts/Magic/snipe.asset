@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackModeData
   modeName: Snipe
   attackInterval: 3
-  damage: 200
+  damage: 3
   range: 8
   projectileSpeed: 17
   isMultiTarget: 0
